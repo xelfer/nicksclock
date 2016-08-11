@@ -6,5 +6,5 @@ export M2_HOME=/opt/apache-maven-3.3.9
 export PATH=$PATH:/$M2_HOME/bin
 export DISPLAY=:1
 
-cd /home/pi/Desktop/alexa-avs-raspberry-pi-master/samples/companionService && /usr/bin/npm start&
-cd /home/pi/Desktop/alexa-avs-raspberry-pi-master/samples/javaclient && sleep 30 && /opt/apache-maven-3.3.9/bin/mvn exec:exec &
+cd /home/pi/nicksclock/ && python clock.py&
+cd /home/pi/Desktop/alexa-avs-raspberry-pi-master/samples/javaclient && /opt/apache-maven-3.3.9/bin/mvn exec:exec 

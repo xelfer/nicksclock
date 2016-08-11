@@ -34,7 +34,11 @@ def loading():
 	for y in range(0, 16):
 		for x in range(0,4):
 			display.set_digit_raw(x, panel)
-		display.write_display()
+		try: 
+			display.write_display()
+		except:
+			print "Write error"
+			pass
 
 		panel = panel * 2
 		if panel > 32:
@@ -49,29 +53,42 @@ def clock():
 		display.set_colon(colon)
 		t = float(strftime("%I.%M"))
 		display.print_float(t)
-		display.write_display()
+		try: 
+			display.write_display()
+		except:
+			print "Write error"
+			pass
+
 		colon = not colon
 		time.sleep(1)
 
 def weather():
 	display.clear()
 	loop = True
-	response = urllib2.urlopen('http://api.openweathermap.org/data/2.5/weather?q=Wollongong,AU&appid=5b0bf755ef773f2a284183cfee4aa540&units=metric')
-	data = json.load(response)
-	t = str(data['main']['temp'])
+	try:
+		response = urllib2.urlopen('http://api.openweathermap.org/data/2.5/weather?q=Wollongong,AU&appid=5b0bf755ef773f2a284183cfee4aa540&units=metric')
+		data = json.load(response)
+		t = str(data['main']['temp'])
 
-	for x in range (0, 5):
-		display.set_digit_raw(0, DIGIT_VALUES.get(str(t[0]).upper(), 0x00))
-		display.set_digit_raw(1, DIGIT_VALUES.get(str(t[1]).upper(), 0x00))
-		display.set_digit_raw(2, 0x63)
-		display.set_digit_raw(3, 0x39)
-		display.write_display()
-		time.sleep(1)
+		for x in range (0, 5):
+			display.set_digit_raw(0, DIGIT_VALUES.get(str(t[0]).upper(), 0x00))
+			display.set_digit_raw(1, DIGIT_VALUES.get(str(t[1]).upper(), 0x00))
+			display.set_digit_raw(2, 0x63)
+			display.set_digit_raw(3, 0x39)
+			try: 
+				display.write_display()
+			except:
+				print "Write error"
+				pass
+			time.sleep(1)
+	except:
+		print "URL error"
+		pass
 
 display = SevenSegment.SevenSegment()
 display.begin()
 
-#loading()
+loading()
 while True:
 	clock()
 	weather()
