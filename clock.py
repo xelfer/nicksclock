@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import time
+import time, datetime
 from time import strftime, gmtime
 from Adafruit_LED_Backpack import SevenSegment
 import urllib2
@@ -52,8 +52,17 @@ def clock():
 	for x in range(0,10):
 		display.set_colon(colon)
 		t = float(strftime("%I.%M"))
+		dt = datetime.datetime.now()
+
 		display.print_float(t)
 		try: 
+			# Enable left colon to flag PM
+			if dt.hour > 11:
+				display.set_left_colon(True)
+		#	if dt.hour > 8:
+		#		display.set_brightness(8)
+		#	elif dt.hour > 20:
+		#		display.set_brightness(4)
 			display.write_display()
 		except:
 			print "Write error"
@@ -66,7 +75,7 @@ def weather():
 	display.clear()
 	loop = True
 	try:
-		response = urllib2.urlopen('http://api.openweathermap.org/data/2.5/weather?q=Wollongong,AU&appid=5b0bf755ef773f2a284183cfee4aa540&units=metric')
+		response = urllib2.urlopen('http://api.openweathermap.org/data/2.5/weather?id=2171507&appid=5b0bf755ef773f2a284183cfee4aa540&units=metric')
 		data = json.load(response)
 		t = str(data['main']['temp'])
 
@@ -79,7 +88,6 @@ def weather():
 				display.write_display()
 			except:
 				print "Write error"
-				pass
 			time.sleep(1)
 	except:
 		print "URL error"

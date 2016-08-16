@@ -9,4 +9,6 @@ display.begin()
 colon = False
 display.set_colon(colon)
 display.clear()
+#display.set_fixed_decimal(True)
+display.set_left_colon(False)
 display.write_display()
